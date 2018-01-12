@@ -24,13 +24,7 @@ public class ItemController {
 	@ResponseBody
 	public String addItem(Item item,String desc){
 		//保存商品
-		item.setStatus(1);
-		itemService.saveSelective(item);
-		//保存商品描述
-		ItemDesc itemDesc = new ItemDesc();
-		itemDesc.setItemId(item.getId());
-		itemDesc.setItemDesc(desc);
-		itemDescService.saveSelective(itemDesc);
+		itemService.saveItem(item,desc);
 		return "success";
 	} 
 }
