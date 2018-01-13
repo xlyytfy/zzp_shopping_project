@@ -38,7 +38,7 @@
 	<!-- <dubbo:registry address="multicast://224.5.6.7:1234" />  -->
 	
 	<!-- 2：使用zookeeper方式:zookeeper默认端口2181 -->
-	<!-- <dubbo:registry protocol="zookeeper" address="192.168.37.128:2181"/> -->
+	<dubbo:registry protocol="zookeeper" address="192.168.37.161:2181"/>
 
 	<!-- 声明要调用的服务，timeout是设置连接超时最长时间,如果不设置，默认一秒超时：改造timeout：为1000000，重试3次 -->
 	<!-- 3：直连方式：不需要注册中心 -->
@@ -46,12 +46,10 @@
 	
 	
 	<!-- zookeeper方式 -->
-	<dubbo:reference interface="com.taotao.manager.service.TestService" id="testService1" timeout="1000000" url="dubbo://127.0.0.1:20880"/> 
-	
-	<dubbo:reference interface="com.taotao.manager.service.ItemCatService" id="itemCatService" timeout="1000000" url="dubbo://127.0.0.1:20880"/> 
-
-
-	<dubbo:reference interface="com.taotao.manager.service.ItemService" id="itemServiceImpl" timeout="1000000" url="dubbo://127.0.0.1:20880"/> 
-
-	<dubbo:reference interface="com.taotao.manager.service.ItemDescService" id="itemDescServiceImpl" timeout="1000000" url="dubbo://127.0.0.1:20880"/> 
+	<dubbo:reference interface="com.taotao.manager.service.TestService" id="testService" timeout="1000000"/> 
+	<dubbo:reference interface="com.taotao.manager.service.ItemCatService" id="itemCatService" timeout="1000000"/> 
+	<dubbo:reference interface="com.taotao.manager.service.ItemService" id="itemService" timeout="1000000"/> 
+	<dubbo:reference interface="com.taotao.manager.service.ItemDescService" id="itemDescService" timeout="1000000"/> 
+	<dubbo:reference interface="com.taotao.manager.service.ContentCategoryService" id="contentCategoryService" timeout="1000000"/> 
+	<dubbo:reference interface="com.taotao.manager.service.ContentService" id="contentService" timeout="1000000"/> 
 </beans>
