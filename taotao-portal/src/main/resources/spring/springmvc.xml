@@ -35,8 +35,9 @@
 	<dubbo:application name="taotao-portal" />
 
 	<!-- 使用zookeeper方式:zookeeper默认端口2181 -->
-	<dubbo:registry protocol="zookeeper" address="192.168.37.128:2181"/>
+	<dubbo:registry protocol="zookeeper" address="192.168.37.161:2181"/>
 
 	<!-- 调用生产者提供的服务接口 -->
-	<!-- <dubbo:reference interface="com.taotao.manager.service.TestService" id="testService1" timeout="1000000"/>  -->
+	<dubbo:reference interface="com.taotao.manager.service.ContentCategoryService" id="contentCategoryService" timeout="1000000"/> 
+	<dubbo:reference interface="com.taotao.manager.service.ContentService" id="contentService" timeout="1000000"/> 
 </beans>

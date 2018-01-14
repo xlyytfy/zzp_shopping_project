@@ -15,7 +15,7 @@ import com.taotao.manager.service.ContentCategoryService;
 
 @Controller
 @RequestMapping("content/category")
-public class ContentCategoryCategory {
+public class ContentCategoryController {
 
 	
 	@Autowired
