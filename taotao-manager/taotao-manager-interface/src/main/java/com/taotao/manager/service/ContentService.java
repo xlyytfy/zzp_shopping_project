@@ -21,6 +21,6 @@ public interface ContentService extends BaseService<Content>{
 	 * @param categoryId
 	 * @return
 	 */
-	List<Content> queryContentByCategoryId(Long categoryId);
+	String queryContentByCategoryId(Long categoryId);
 
 }

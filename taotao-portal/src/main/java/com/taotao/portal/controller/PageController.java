@@ -22,7 +22,8 @@ public class PageController {
 	@Value("${TAOTAO_AD_ID}")
 	private Long categoryId;
 	
-	private static final ObjectMapper mapper = new ObjectMapper();
+	
+	
 	
 	@Autowired
 	private ContentService contentService;
@@ -36,21 +37,10 @@ public class PageController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String toPage(Model model) throws Exception{
 		//大广告数据
-		List<Content> list = contentService.queryContentByCategoryId(categoryId);
-		List<HashMap<String, Object>> contentMapList = new ArrayList<>();
-		for (Content content : list) {
-			HashMap<String, Object> map = new HashMap<>();
-			map.put("srcB", content.getPic());
-			map.put("height",240);
-			map.put("alt","" );
-			map.put("width", 670);
-			map.put("src", content.getPic2());
-			map.put("widthB", 550);
-			map.put("href", content.getUrl());
-			map.put("heightB", 240);
-			contentMapList.add(map);
-		}
-		String AD = mapper.writeValueAsString(contentMapList);
+		String AD = contentService.queryContentByCategoryId(categoryId);
+		
+		
+		
 		model.addAttribute("AD", AD);
 		//返回页面
 		return "index";

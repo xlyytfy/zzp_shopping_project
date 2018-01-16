@@ -1,7 +1,10 @@
 E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\impl\BaseServiceImpl.java
+E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\redis\RedisUtils.java
 E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\impl\ContentCategoryServiceImpl.java
 E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\impl\TestServiceImpl.java
+E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\redis\impl\RedisCluster.java
 E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\impl\ItemServiceImpl.java
 E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\impl\ItemDescServiceImpl.java
 E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\impl\ContentServiceImpl.java
+E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\redis\impl\RedisPool.java
 E:\workspaces\workspaceHeiMa_277_SSM\taotao\taotao-manager\taotao-manager-service\src\main\java\com\taotao\manager\service\impl\ItemCatServiceImpl.java
