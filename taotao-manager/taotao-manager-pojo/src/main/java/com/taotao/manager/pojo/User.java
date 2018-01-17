@@ -5,6 +5,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 用户测试，table如果和表中一致通用mapper可以判断
+ * @author Administrator
+ *
+ */
 @Table(name = "tb_user")
 public class User extends BasePojo {
 
