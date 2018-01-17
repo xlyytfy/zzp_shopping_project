@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- 配置 读取properties文件 jdbc.properties -->
+	<!-- 配置 读取properties文件 一个工程下只可以有一个property-placeholder -->
 	<context:property-placeholder location="classpath:resource/*.properties" />
 
 	<!-- 配置数据源 -->
