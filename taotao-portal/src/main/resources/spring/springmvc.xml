@@ -40,4 +40,5 @@
 	<!-- 调用生产者提供的服务接口 -->
 	<dubbo:reference interface="com.taotao.manager.service.ContentCategoryService" id="contentCategoryService" timeout="1000000"/> 
 	<dubbo:reference interface="com.taotao.manager.service.ContentService" id="contentService" timeout="1000000"/> 
+	<dubbo:reference interface="com.taotao.manager.service.UserService" id="userService" timeout="1000000"/> 
 </beans>

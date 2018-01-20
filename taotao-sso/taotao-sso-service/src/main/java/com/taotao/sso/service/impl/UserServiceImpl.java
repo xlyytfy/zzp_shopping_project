@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User querUserByTicket(String ticket) {
 		try {
-			String redisStr = redisUtils.get(TAOTAO_USER_TICKET+ticket);
+			String redisStr = redisUtils.get(ticket);
 			if(StringUtils.isNotBlank(redisStr)){
 				User user = MAPPER.readValue(redisStr, User.class);
 				//如果不为空则查询到对象，表明该对象活跃，重置时间 30分钟

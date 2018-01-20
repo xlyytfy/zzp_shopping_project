@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taotao.manager.pojo.User;
 import com.taotao.sso.service.UserService;
 
@@ -21,6 +22,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	private final static ObjectMapper MAPPER = new  ObjectMapper();
+	
 	@RequestMapping(value = "check/{param}/{type}" ,method = RequestMethod.GET)
 	public ResponseEntity<String> check(HttpServletRequest request, @PathVariable String param,
 			@PathVariable Integer type) {
@@ -44,20 +47,23 @@ public class UserController {
 	
 	
 	@RequestMapping(value="{ticket}",method = RequestMethod.GET)
-	public ResponseEntity<User> querUserByTicket(@PathVariable String ticket){
-		
+	public ResponseEntity<String> querUserByTicket(HttpServletRequest request,@PathVariable String ticket){
+		String callback = request.getParameter("callback");
+		StringBuilder result = new StringBuilder();
 		try {
-			//获取redis中user对象
+			//判断是否可用
 			User user = userService.querUserByTicket(ticket);
-			//如果查询得到数据
-			if(user != null){
-				return ResponseEntity.ok(user);
+			//判断是否跨域调用，如果有callback不为空则表示跨域封装callback()
+			if(StringUtils.isNotBlank(callback)){
+				
+				result.append(callback+"(").append(MAPPER.writeValueAsString(user)).append(")");
+			}else{
+				result.append(MAPPER.writeValueAsString(user));
 			}
+			return ResponseEntity.ok(result.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
-		
-		//返回错误：500
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	}
 	

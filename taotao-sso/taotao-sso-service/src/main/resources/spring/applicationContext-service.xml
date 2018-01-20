@@ -24,7 +24,7 @@
 	<!-- 3：zookeeper方式 -->
 	<dubbo:registry protocol="zookeeper" address="192.168.37.161:2181"/>
 
-	<!-- 需要暴露端口：用dubbo协议在20880端口暴露服务 -->
+	<!-- 需要暴露端口：用dubbo协议在20881端口暴露服务 -->
 	<dubbo:protocol name="dubbo" port="20881" />
 
 	<!-- 声明需要暴露的服务接口 -->

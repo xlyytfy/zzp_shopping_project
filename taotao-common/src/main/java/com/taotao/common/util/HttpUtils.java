@@ -1,4 +1,4 @@
-package com.taotao.common.pojo;
+package com.taotao.common.util;
 
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +10,8 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
+import com.taotao.common.pojo.HttpResult;
 
 public class HttpUtils {
 	

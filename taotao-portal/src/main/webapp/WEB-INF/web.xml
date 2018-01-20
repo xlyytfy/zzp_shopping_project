@@ -37,4 +37,11 @@
 		<!-- 所有以html结尾的请求进入SpringMVC：作用SEO搜索优化，因为html结尾会靠前 -->
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
+	
+	<!-- 解决springmvc以html结尾只返回文本数据 -->
+	<servlet-mapping>
+		<servlet-name>taotao-manager-web</servlet-name>
+		<!-- 所有以html结尾的请求进入SpringMVC：作用SEO搜索优化，因为html结尾会靠前 -->
+		<url-pattern>/service/*</url-pattern>
+	</servlet-mapping>
 </web-app>
