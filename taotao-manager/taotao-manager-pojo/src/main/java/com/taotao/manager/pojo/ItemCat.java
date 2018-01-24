@@ -26,15 +26,6 @@ public class ItemCat extends BasePojo {
     @Column(name = "is_parent")
     private Boolean isParent;
 
-    // 显示节点文本
- 	public String getText() {
- 		return this.getName();
- 	}
-
- 	public String getState() {
- 		return this.getIsParent() ? "closed" : "open";
- 	}
-    
     public Long getId() {
         return id;
     }
