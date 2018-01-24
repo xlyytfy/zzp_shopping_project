@@ -18,5 +18,19 @@ public interface UserService {
 	 * @return
 	 */
 	User querUserByTicket(String ticket);
+	
+	/**
+	 * 执行注册
+	 * @param user
+	 * @return
+	 */
+	int doregist(User user);
+
+	/**
+	 * 用户登录
+	 * @param user
+	 * @return
+	 */
+	String doLogin(User user);
 
 }

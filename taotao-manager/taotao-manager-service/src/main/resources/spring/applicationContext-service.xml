@@ -34,5 +34,4 @@
 	<dubbo:service interface="com.taotao.manager.service.ItemDescService" ref="itemDescServiceImpl" />
 	<dubbo:service interface="com.taotao.manager.service.ContentCategoryService" ref="contentCategoryServiceImpl" />
 	<dubbo:service interface="com.taotao.manager.service.ContentService" ref="contentServiceImpl" />
-	<dubbo:service interface="com.taotao.manager.service.UserService" ref="userServiceImpl" />
 </beans>

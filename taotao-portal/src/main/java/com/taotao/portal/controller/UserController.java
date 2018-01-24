@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.taotao.manager.pojo.User;
-import com.taotao.manager.service.UserService;
+import com.taotao.sso.service.UserService;
 import com.taotao.portal.utils.CookieUtils;
 
 @Controller
