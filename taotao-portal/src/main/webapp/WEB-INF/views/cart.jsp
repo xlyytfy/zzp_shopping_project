@@ -68,7 +68,7 @@
 		                		<img clstag="clickcart|keycount|xincart|p-imglistcart" src="${cart.itemImage}" alt="${cart.itemTitle}" width="52" height="52">
 		                	</a>
 		                </div>    
-		                <div class="p-name">
+		                <div class="p-name">	
 		                	<a href="http://www.taotao.com/item/${cart.itemId }.html" clstag="clickcart|keycount|xincart|productnamelink" target="_blank">${cart.itemTitle}</a>
 		                	<span class="promise411 promise411_11345721" id="promise411_11345721"></span>
 		                </div>    
