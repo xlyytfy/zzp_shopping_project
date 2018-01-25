@@ -25,56 +25,122 @@ public class CartController {
 
 	@Value("${TT_TICKET}")
 	private String TT_TICKET;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private CartService cartService;
-	
-	@RequestMapping(value = "{itemId}",method = RequestMethod.GET)
-	public String addItemCart(@PathVariable Long itemId,Integer num,HttpServletRequest request) throws Exception{
-		//判断当前用户是否登录
-		//获取ticket
-		String ticket = CookieUtils.getCookieValue(request,TT_TICKET);
-		//根据ticket获取用户登录信息
-		User user = userService.querUserByTicket(ticket);
-		//获取订单
-		if(user != null){
-			//用户已经登录
-			//当前订单加入购物车
-			cartService.addItem(itemId,user.getId(),num);
-		}else{
-			//用户未登录获取cookie中数据
+
+	/**
+	 * 添加商品到购物车
+	 * 
+	 * @param itemId
+	 * @param num
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "{itemId}", method = RequestMethod.GET)
+	public String addItemCart(@PathVariable Long itemId, Integer num, HttpServletRequest request) throws Exception {
+		// 获取当前登录用户
+		User user = queryUserLogin(request);
+		// 获取订单
+		if (user != null) {
+			// 用户已经登录
+			// 当前订单加入购物车
+			cartService.addCart(itemId, user.getId(), num);
+		} else {
+			// 用户未登录获取cookie中数据
 		}
-		//订单加入到购物车
-		
+		// 订单加入到购物车
+
 		return "redirect:/cart/show.html";
 	}
-	
-	@RequestMapping(value = "show",method = RequestMethod.GET)
-	public String showItemCart(Model model,HttpServletRequest request) throws Exception{
-		
-		//判断当前用户是否登录
-		//获取ticket
-		String ticket = CookieUtils.getCookieValue(request,TT_TICKET);
-		//根据ticket获取用户登录信息
-		User user = userService.querUserByTicket(ticket);
+
+	/**
+	 * 展示购物车
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "show", method = RequestMethod.GET)
+	public String showItemCart(Model model, HttpServletRequest request) throws Exception {
+		// 获取当前登录用户
+		User user = queryUserLogin(request);
 		List<Cart> cartList = null;
-		if(user != null){
-			//当前用户已经登录
+		if (user != null) {
+			// 当前用户已经登录
 			cartList = cartService.queryCartByUserId(user.getId());
-		}else{
-			
+		} else {
+			// 当前用户未登录
+
 		}
 		// 保存购物车到模型中
 		model.addAttribute("cartList", cartList);
 		return "cart";
 	}
-	
-	@RequestMapping(value = "/update/{itemId}/{num}" ,method = RequestMethod.POST)
+
+	/**
+	 * 获取商品id更新购物车商品数量
+	 * 
+	 * @param itemId
+	 * @param num
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "/update/{itemId}/{num}", method = RequestMethod.POST)
 	@ResponseBody
-	public void updateCartByItemId(){
+	public void updateCartByItemId(HttpServletRequest request,@PathVariable Long itemId, @PathVariable Integer num) throws Exception {
+		// 获取当前登录用户
+		User user = queryUserLogin(request);
 		
+		if(user != null){
+			// 用户已经登录
+			// 修改商品数量
+			cartService.updateCart(itemId, user.getId(), num);
+		}else{
+			//用户还未登录
+		}
+	}
+
+	/**
+	 * 获取当前登录用户,如果未登录反回null
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public User queryUserLogin(HttpServletRequest request) throws Exception {
+		// 获取ticket
+		String ticket = CookieUtils.getCookieValue(request, TT_TICKET);
+		// 根据ticket获取用户登录信息
+		User user = userService.querUserByTicket(ticket);
+		return user;
+	}
+	
+	/**
+	 * 删除购物车的商品
+	 * 
+	 * @param itemId
+	 * @param request
+	 * @return
+	 * @throws Exception 
+	 */
+	@RequestMapping(value = "delete/{itemId}", method = RequestMethod.GET)
+	public String deleteItemByCart(@PathVariable("itemId") Long itemId, HttpServletRequest request) throws Exception {
+		// 获取当前登录用户
+		User user = queryUserLogin(request);
+
+		// 判断用户是否登录
+		if (user != null) {
+			// 用户已登录
+			this.cartService.deleteItemInCart(user.getId(), itemId);
+		} else {
+			// 用户未登录
+
+		}
+
+		return "redirect:/cart/show.html";
 	}
 }
