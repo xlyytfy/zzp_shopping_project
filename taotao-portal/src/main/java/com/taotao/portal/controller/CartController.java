@@ -1,8 +1,11 @@
 package com.taotao.portal.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +20,7 @@ import com.taotao.cart.service.CartService;
 import com.taotao.common.util.CookieUtils;
 import com.taotao.manager.pojo.Cart;
 import com.taotao.manager.pojo.User;
+import com.taotao.portal.service.CartCookieService;
 import com.taotao.sso.service.UserService;
 
 @Controller
@@ -25,12 +29,15 @@ public class CartController {
 
 	@Value("${TT_TICKET}")
 	private String TT_TICKET;
-
+	
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	private CartCookieService cartCookieService;
 
 	/**
 	 * 添加商品到购物车
@@ -42,7 +49,7 @@ public class CartController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "{itemId}", method = RequestMethod.GET)
-	public String addItemCart(@PathVariable Long itemId, Integer num, HttpServletRequest request) throws Exception {
+	public String addItemCart(@PathVariable Long itemId, Integer num, HttpServletRequest request,HttpServletResponse response) throws Exception {
 		// 获取当前登录用户
 		User user = queryUserLogin(request);
 		// 获取订单
@@ -51,7 +58,12 @@ public class CartController {
 			// 当前订单加入购物车
 			cartService.addCart(itemId, user.getId(), num);
 		} else {
-			// 用户未登录获取cookie中数据
+			Map<String, Object> param = new HashMap<>();
+			param.put("request", request);
+			param.put("response", response);
+			// 用户未登录
+			/*this.cartService.addCookieCart(param,itemId, num);*/
+			cartCookieService.addItemByCookie(itemId, num, request, response);
 		}
 		// 订单加入到购物车
 
@@ -67,7 +79,7 @@ public class CartController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "show", method = RequestMethod.GET)
-	public String showItemCart(Model model, HttpServletRequest request) throws Exception {
+	public String showItemCart(Model model, HttpServletRequest request,HttpServletResponse response) throws Exception {
 		// 获取当前登录用户
 		User user = queryUserLogin(request);
 		List<Cart> cartList = null;
@@ -75,8 +87,11 @@ public class CartController {
 			// 当前用户已经登录
 			cartList = cartService.queryCartByUserId(user.getId());
 		} else {
-			// 当前用户未登录
-
+			Map<String, Object> param = new HashMap<>();
+			param.put("request", request);
+			// 用户未登录获取cookie中数据
+			/*cartList = cartService.queryCookieCartByUserId(param);*/
+			cartList = cartCookieService.queryCartByCookie(request);
 		}
 		// 保存购物车到模型中
 		model.addAttribute("cartList", cartList);

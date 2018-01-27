@@ -1,6 +1,10 @@
 package com.taotao.cart.service;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.taotao.manager.pojo.Cart;
 
@@ -40,5 +44,21 @@ public interface CartService {
 	 * @throws Exception
 	 */
 	void deleteItemInCart(Long itemId, Long userId) throws Exception;
+
+	/**
+	 * 添加购物车到cookie
+	 * @param param 封装request
+	 * @param itemId
+	 * @param num
+	 * @throws Exception
+	 */
+	void addCookieCart(Map<String, Object> param,Long itemId, Integer num) throws Exception;
+
+	/**
+	 * cookie中获取
+	 * @param response
+	 * @param id
+	 */
+	List<Cart> queryCookieCartByUserId(Map<String, Object> param);
 
 }

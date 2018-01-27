@@ -62,5 +62,5 @@
 	<!-- <bean class="com.taotao.sso.service.redis.impl.RedisPool"></bean> -->
 	
 	<!-- 配置集群实现类      -->   
-	<bean class="com.taotao.car.service.redis.impl.RedisCluster"></bean>
+	<bean class="com.taotao.cart.service.redis.impl.RedisCluster"></bean>
 </beans>

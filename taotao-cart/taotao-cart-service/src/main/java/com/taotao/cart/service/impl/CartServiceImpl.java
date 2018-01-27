@@ -3,6 +3,10 @@ package com.taotao.cart.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taotao.cart.service.CartService;
 import com.taotao.cart.service.redis.RedisUtils;
+import com.taotao.common.util.CookieUtils;
 import com.taotao.manager.mapper.ItemMapper;
 import com.taotao.manager.pojo.Cart;
 import com.taotao.manager.pojo.Item;
@@ -24,6 +29,9 @@ public class CartServiceImpl implements CartService {
 
 	@Value("${TAOTAO_ITEM_CART}")
 	private String TAOTAO_ITEM_CART;
+
+	@Value("${TT_COOKIE_CART}")
+	private String TT_COOKIE_CART;
 
 	@Autowired
 	private RedisUtils redisUtils;
@@ -65,7 +73,10 @@ public class CartServiceImpl implements CartService {
 		// 如果当前不存在商品或者list为空
 		// 创建购物车数据
 		Cart cart = new Cart();
-		cart.setUserId(userId);
+		// 判读用户是否登录
+		if (userId != null) {
+			cart.setUserId(userId);
+		}
 		cart.setItemId(itemId);
 		cart.setItemTitle(item.getTitle());
 		cart.setItemPrice(item.getPrice());
@@ -119,14 +130,68 @@ public class CartServiceImpl implements CartService {
 			for (Cart cart : list) {
 				// 商品存在当前购物车中
 				if (cart.getItemId().longValue() == itemId) {
-					//移除商品
+					// 移除商品
 					list.remove(cart);
-					//重新设置购物车内容
+					// 重新设置购物车内容
 					redisUtils.set(TAOTAO_ITEM_CART + userId, MAPPER.writeValueAsString(list));
 					break;
 				}
 			}
 		}
 	}
+
+	@Override
+	public void addCookieCart(Map<String, Object> param, Long itemId, Integer num) throws Exception {
+			HttpServletRequest request = (HttpServletRequest) param.get("request");
+			HttpServletResponse response = (HttpServletResponse) param.get("response");
+			Item item = itemMapper.selectByPrimaryKey(itemId);
+			String cartJson = CookieUtils.getCookieValue(request, TT_COOKIE_CART, true);
+			List<Cart> list = new ArrayList<>();
+			if (StringUtils.isNotBlank(cartJson)) {
+				// 如果购物车已经创建，获取购物车
+				list = MAPPER.readValue(cartJson, MAPPER.getTypeFactory().constructCollectionType(List.class, Cart.class));
+				boolean exist = false;
+				// 变量购物车查询当前商品是否存在于购物车
+				for (Cart cart : list) {
+					// 商品存在当前购物车中
+					if (cart.getItemId().longValue() == itemId) {
+						// 数量累加
+						cart.setNum(cart.getNum() + num);
+						exist = true;
+						break;
+					}
+				}
+				if (!exist) {
+					addCart(list, null, itemId, item, num);
+				}
+			} else {
+				// 如果购物车还未创建
+				// 添加购物车
+				addCart(list, null, itemId, item, num);
+			}
+			// 添加到COOKIE
+			CookieUtils.setCookie(request, response, TT_COOKIE_CART, MAPPER.writeValueAsString(list), 60 * 60 * 24 * 3,true);
+		
+	}
+
+	@Override
+	public List<Cart> queryCookieCartByUserId(Map<String, Object> param) {
+
+		HttpServletRequest request = (HttpServletRequest) param.get("request");
+		HttpServletResponse response = (HttpServletResponse) param.get("response");
+		String cartJson = CookieUtils.getCookieValue(request, TT_COOKIE_CART, true);
+		List<Cart> list = new ArrayList<>();
+		if (StringUtils.isNotBlank(cartJson)) {
+			try {
+				list = MAPPER.readValue(cartJson, MAPPER.getTypeFactory().constructCollectionType(List.class, Cart.class));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+
+	
 
 }

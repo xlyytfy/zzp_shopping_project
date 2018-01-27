@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.taotao.manager.pojo.User;
-import com.taotao.sso.service.UserService;
 import com.taotao.portal.utils.CookieUtils;
+import com.taotao.sso.service.UserService;
 
 @Controller
 @RequestMapping("user")
@@ -58,6 +58,7 @@ public class UserController {
 			CookieUtils.setCookie(request, response,this.TT_TICKET,ticket,24*60*60, true);
 			map.put("status", 200);
 		}
+		
 		return map;
 	}
 

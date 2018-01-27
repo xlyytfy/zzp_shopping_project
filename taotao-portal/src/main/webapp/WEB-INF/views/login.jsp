@@ -222,8 +222,18 @@
 	                if (result) {
 	                    var obj = eval(result);
 	                    if (obj.status == 200) {
-                    		//登录成功，跳转到首页
-                    		obj.success = "http://www.taotao.com/";
+	                    	
+	                    	//上一次url
+	                    	var redirectUrl = "${url}";
+	                    	
+	                    	if(redirectUrl){
+	                    		//当redirectURL不为空的时候执行
+	                    		obj.success = redirectUrl;
+	                    	}else{
+	                    		//当redirectURL为空跳转首页
+	                    		obj.success = "http://www.taotao.com/";
+	                    	}
+	                    	
 	                        var isIE = !-[1,];
 	                        if (isIE) {
 	                            var link = document.createElement("a");

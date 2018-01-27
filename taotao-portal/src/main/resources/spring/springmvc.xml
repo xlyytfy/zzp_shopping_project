@@ -12,8 +12,8 @@
 	<context:property-placeholder location="classpath:resource/env.properties"/>
 
 	<!-- 配置controller扫描 -->
-	<context:component-scan base-package="com.taotao.portal.controller" />
-
+	<context:component-scan base-package="com.taotao.portal" />
+	
 	<!-- 配置注解驱动 -->
 	<mvc:annotation-driven />
 
@@ -31,6 +31,16 @@
 		<property name="maxUploadSize" value="5000000" />
 	</bean>
 
+	<!-- 配置拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+		<!-- /**表示拦截多级目录/*表示拦截一层目录-->
+		<!-- 不拦截内容：<mvc:exclude-mapping path=""/> -->
+		<mvc:mapping path="/order/**"/>
+			<bean class="com.taotao.portal.interceptor.LoginIerInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
 	<!-- 配置dubbo服务 -->
 	<dubbo:application name="taotao-portal" />
 
@@ -41,5 +51,6 @@
 	<dubbo:reference interface="com.taotao.manager.service.ContentCategoryService" id="contentCategoryService" timeout="1000000"/> 
 	<dubbo:reference interface="com.taotao.manager.service.ContentService" id="contentService" timeout="1000000"/> 
 	<dubbo:reference interface="com.taotao.sso.service.UserService" id="userService" timeout="1000000"/> 
-	<dubbo:reference interface="com.taotao.cart.service.CartService" id="CartService" timeout="1000000"/> 
+	<dubbo:reference interface="com.taotao.cart.service.CartService" id="cartService" timeout="1000000"/> 
+	<dubbo:reference interface="com.taotao.manager.service.ItemService" id="itemService" timeout="1000000"/> 
 </beans>

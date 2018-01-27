@@ -32,7 +32,7 @@
 
 	<aop:config>
 		<aop:pointcut id="myPointcut"
-			expression="execution(* com.taotao.car.service.*.*(..))" />
+			expression="execution(* com.taotao.cart.service.*.*(..))" />
 		<!--将定义好的事务处理策略应用到上述的切入点 -->
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut" />
 	</aop:config>
